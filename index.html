@@ -242,8 +242,6 @@
 <body>
 
 <div id="app">
-
-  <!-- ============ БИБЛИОТЕКА ============ -->
   <section class="view active" id="view-library">
     <div class="library-wrap">
       <div class="lib-header">
@@ -254,7 +252,6 @@
     </div>
   </section>
 
-  <!-- ============ КНИГА (TOC) ============ -->
   <section class="view" id="view-book">
     <div class="topbar">
       <button class="topbar-btn" onclick="App.goLibrary()">← Меню</button>
@@ -264,7 +261,6 @@
     <div class="book-view-wrap" id="book-content"></div>
   </section>
 
-  <!-- ============ READER ============ -->
   <section class="view" id="view-reader">
     <div class="topbar" style="position:relative;">
       <div class="reader-progress" id="reader-progress"></div>
@@ -274,12 +270,7 @@
     </div>
     <div class="read-container" id="reader-content"></div>
   </section>
-
 </div>
-
-<!-- ============================================================
-     КОНТЕНТ КНИГ (шаблоны)
-     ============================================================ -->
 
 <template id="tpl-phantom-prologue">
   <header class="chapter-head">
@@ -347,4 +338,187 @@
     <p>Айра не стала спорить. Она спрятала копии документов в вентиляционном отсеке под полом и запомнила все сведения, которые смогла собрать о той ночи: время начала операции, расположение оцепления, маршрут служебной машины и номер технического тоннеля, через который та исчезла. Тогда у неё не было ни навыков, ни ресурсов, чтобы проверить эти данные самостоятельно, но она решила, что однажды вернётся к ним и выяснит, что произошло с сестрой.</p>
 
     <figure>
-      <img src="covers/img-0790.jpg" alt="Айра
+      <img src="covers/img-0790.jpg" alt="Айра за взломом систем">
+      <figcaption>Годы спустя</figcaption>
+    </figure>
+
+    <p>Годы спустя Айра научилась проникать в закрытые сети, восстанавливать повреждённые архивы и обходить защиту корпоративных систем. Она начинала с мелких заказов, постепенно бралась за более сложные операции и по ночам возвращалась к старым записям о Двенадцатом районе. Иногда ей удавалось обнаружить фамилию сотрудника, участвовавшего в эвакуации, или номер транспортного узла, связанного с перемещением задержанных, но каждый след заканчивался там, где начиналась закрытая инфраструктура «Гипериона».</p>
+
+    <p>Однажды Айра получила доступ к резервной копии журнала управления транспортными узлами, созданной в ночь исчезновения Лины. Большая часть данных оказалась повреждена, а несколько разделов были удалены намеренно, однако в последовательности служебных операций сохранилась запись о машине, которая покинула станцию переработки через технический тоннель. Её регистрационный номер отсутствовал, маршрут был обозначен как внутреннее перемещение, а сведения о пассажирах не сохранились.</p>
+
+    <p>В соседнем разделе обнаружилась ещё одна запись: неизвестная команда, отправленная в систему управления незадолго до отключения районной сети. Она не соответствовала ни одному из стандартных протоколов «Гипериона», а её происхождение невозможно было установить по сохранившимся метаданным. Айра восстановила повреждённую строку и увидела короткий ответ, оставленный в журнале без пояснений и указания адресата.</p>
+
+    <p class="whisper">Не успели.</p>
+
+    <p>Она проверила временные метки, сопоставила их с доступными сведениями об эвакуации и несколько раз запустила анализ восстановленного фрагмента. Команда появилась в системе за секунды до того, как связь с несколькими транспортными узлами была потеряна, но данных не хватало, чтобы понять, кто её отправил и к чему относилось сообщение. Возможно, кто-то пытался предупредить о происходящем, возможно, операция пошла не по плану, а возможно, эта запись вообще относилась к другому событию, случившемуся той же ночью.</p>
+
+    <p>Айра сохранила копию журнала на автономный накопитель и вернулась к поиску. Впервые за много лет у неё появился цифровой след, который связывал исчезновение Лины с вмешательством неизвестного участника, однако он не объяснял ни причины исчезновения, ни того, почему корпоративные архивы оказались очищены так тщательно. Кто-то знал, что произошло в Двенадцатом районе, и кто-то не хотел, чтобы эта информация сохранилась.</p>
+
+    <p>Спустя годы Айра столкнётся с тем же почерком в закрытых сетях «Гипериона», когда неизвестный противник начнёт опережать её в операциях, перехватывать данные и менять результаты взломов так, словно заранее знает её следующий шаг. Она назовёт его Фантомом, не подозревая, что за этим именем скрывается нечто гораздо сложнее, чем один талантливый хакер.</p>
+
+    <p>Но в ту ночь, когда она впервые восстановила запись из архива, Айра ещё не знала ни имени своего будущего противника, ни того, что её поиски приведут к человеку, который годами работал внутри самой корпорации. Она просто смотрела на два слова в повреждённом журнале и пыталась понять, кто именно не успел — и кого уже было невозможно спасти.</p>
+  </article>
+</template>
+
+<script>
+const BOOKS = [
+  {
+    id: 'phantom',
+    title: 'PHANTOM',
+    author: 'Голубцов Александр',
+    tagline: 'Двенадцатый район',
+    cover: 'covers/cover.jpg',
+    chapters: [
+      {
+        id: 'prologue',
+        label: 'Пролог',
+        title: 'Двенадцатый район',
+        subtitle: 'Двенадцать лет назад',
+        templateId: 'tpl-phantom-prologue'
+      }
+    ]
+  }
+];
+
+const App = (() => {
+  const tg = window.Telegram?.WebApp || null;
+  const STORAGE_KEY = 'mini_app_books_progress_v1';
+
+  if (tg) {
+    try { tg.ready(); tg.expand(); if(tg.setHeaderColor) tg.setHeaderColor('#050508'); if(tg.setBackgroundColor) tg.setBackgroundColor('#050508'); if(tg.disableVerticalSwipes) tg.disableVerticalSwipes(); } catch(e){}
+  }
+
+  function loadProgress() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; } }
+  function saveProgress(data) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch {} }
+  function getBookProgress(bookId) { const p = loadProgress(); return p[bookId] || { lastChapter: 0, chapters: {} }; }
+  function setChapterScroll(bookId, chapterId, ratio) {
+    try {
+      const all = loadProgress();
+      if (!all[bookId]) all[bookId] = { lastChapter: 0, chapters: {} };
+      if (!all[bookId].chapters) all[bookId].chapters = {};
+      all[bookId].chapters[chapterId] = ratio;
+      const book = BOOKS.find(b => b.id === bookId);
+      if (book) all[bookId].lastChapter = book.chapters.findIndex(c => c.id === chapterId);
+      saveProgress(all);
+    } catch (e) {}
+  }
+  function getChapterScroll(bookId, chapterId) { return getBookProgress(bookId).chapters?.[chapterId] || 0; }
+  function bookOverallProgress(book) {
+    try {
+      const p = getBookProgress(book.id); const total = book.chapters.length;
+      if (!total) return 0;
+      return book.chapters.reduce((acc, ch) => acc + Math.min(p.chapters?.[ch.id] || 0, 1), 0) / total;
+    } catch (e) { return 0; }
+  }
+  function haptic(type = 'light') {
+    if (!tg?.HapticFeedback) return;
+    try { if (type === 'light') tg.HapticFeedback.impactOccurred('light'); else if (type === 'medium') tg.HapticFeedback.impactOccurred('medium'); } catch {}
+  }
+
+  const views = { library: document.getElementById('view-library'), book: document.getElementById('view-book'), reader: document.getElementById('view-reader') };
+  let current = 'library', activeBookId = null, activeChapterIndex = 0;
+
+  function setView(name) {
+    Object.values(views).forEach(v => v.classList.remove('active'));
+    views[name].classList.add('active'); views[name].scrollTop = 0; current = name;
+    if (tg?.BackButton) { if (name === 'library') tg.BackButton.hide(); else tg.BackButton.show(); }
+  }
+
+  function renderLibrary() {
+    const list = document.getElementById('book-list'); list.innerHTML = '';
+    BOOKS.forEach(book => {
+      const progress = bookOverallProgress(book);
+      const card = document.createElement('button'); card.className = 'book-card';
+      card.innerHTML = `
+        <div class="book-cover">
+          ${book.cover ? `<img src="${book.cover}" alt="${escapeHtml(book.title)}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\\'cover-fallback\\'>${escapeHtml(book.title)}</span>';">` : `<span class="cover-fallback">${escapeHtml(book.title)}</span>`}
+        </div>
+        <div class="book-info">
+          <span class="tagline">${escapeHtml(book.tagline || '')}</span>
+          <span class="title">${escapeHtml(book.title)}</span>
+          <span class="author">${escapeHtml(book.author)}</span>
+          <div class="book-progress">
+            <div class="progress-bar"><div class="progress-fill" style="width:${Math.round(progress*100)}%"></div></div>
+            <span>${Math.round(progress*100)}%</span>
+          </div>
+        </div>`;
+      card.addEventListener('click', () => { haptic('light'); openBook(book.id); });
+      list.appendChild(card);
+    });
+  }
+
+  function openBook(bookId) { const book = BOOKS.find(b => b.id === bookId); if (!book) return; activeBookId = bookId; renderBookView(book); setView('book'); }
+
+  function renderBookView(book) {
+    document.getElementById('book-topbar-title').textContent = book.title;
+    const p = getBookProgress(book.id);
+    const hasProgress = book.chapters.some(ch => (p.chapters?.[ch.id] || 0) > 0.01);
+    const lastChapter = p.lastChapter || 0;
+    const continueLabel = hasProgress ? 'Продолжить чтение' : 'Начать чтение';
+    const container = document.getElementById('book-content');
+    container.innerHTML = `
+      <div class="book-hero">
+        <div class="cover-frame">
+          ${book.cover ? `<img src="${book.cover}" alt="${escapeHtml(book.title)}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\\'cover-fallback\\'>${escapeHtml(book.title)}</span>';">` : `<span class="cover-fallback">${escapeHtml(book.title)}</span>`}
+        </div>
+        <h1 class="title-glitch">${escapeHtml(book.title)}</h1>
+        <p class="author-name">${escapeHtml(book.author)}</p>
+        <button class="btn-primary" id="continue-btn">${continueLabel}</button>
+      </div>
+      <div class="toc">
+        <div class="toc-title">Содержание</div>
+        ${book.chapters.map((ch, i) => {
+          const r = p.chapters?.[ch.id] || 0; const read = r > 0.99;
+          return `<button class="toc-item ${read ? 'read' : ''}" data-chapter="${i}"><span class="toc-num">${String(i+1).padStart(2,'0')}</span><div class="toc-info"><div class="toc-label">${escapeHtml(ch.label)}</div><div class="toc-name">${escapeHtml(ch.title)}</div></div><span class="toc-arrow">›</span></button>`;
+        }).join('')}
+      </div>`;
+    container.querySelector('#continue-btn').addEventListener('click', () => { haptic('light'); openChapter(lastChapter); });
+    container.querySelectorAll('.toc-item').forEach(el => { el.addEventListener('click', () => { haptic('light'); openChapter(parseInt(el.dataset.chapter, 10)); }); });
+  }
+
+  function goBook() { if (!activeBookId) return; renderBookView(BOOKS.find(b => b.id === activeBookId)); setView('book'); }
+
+  function openChapter(index) {
+    const book = BOOKS.find(b => b.id === activeBookId); if (!book) return; const ch = book.chapters[index]; if (!ch) return;
+    activeChapterIndex = index; document.getElementById('reader-topbar-title').textContent = ch.label + ' · ' + book.title;
+    const tpl = document.getElementById(ch.templateId); const readerContent = document.getElementById('reader-content');
+    readerContent.innerHTML = tpl ? tpl.innerHTML : '<p>Контент не найден.</p>';
+    const nav = document.createElement('div'); nav.className = 'chapter-nav';
+    const prev = document.createElement('button'); prev.textContent = '‹ Назад'; prev.disabled = index === 0; prev.addEventListener('click', () => { haptic('light'); openChapter(index - 1); });
+    const next = document.createElement('button'); next.textContent = 'Далее ›'; next.disabled = index >= book.chapters.length - 1; next.addEventListener('click', () => { haptic('light'); openChapter(index + 1); });
+    nav.appendChild(prev); nav.appendChild(next);
+    const end = document.createElement('div'); end.className = 'end-chapter'; end.innerHTML = '<div class="end-mark">Конец главы</div>';
+    readerContent.appendChild(end); readerContent.appendChild(nav);
+    setView('reader');
+    const saved = getChapterScroll(book.id, ch.id);
+    requestAnimationFrame(() => { const view = views.reader; view.scrollTop = saved * (view.scrollHeight - view.clientHeight); updateProgressBar(); });
+  }
+
+  let saveTimer = null;
+  function updateProgressBar() {
+    const view = views.reader; const max = view.scrollHeight - view.clientHeight; const ratio = max > 0 ? view.scrollTop / max : 0;
+    document.getElementById('reader-progress').style.width = (ratio * 100) + '%';
+    if (current === 'reader' && activeBookId) {
+      const book = BOOKS.find(b => b.id === activeBookId);
+      if (book && book.chapters[activeChapterIndex]) {
+        clearTimeout(saveTimer); saveTimer = setTimeout(() => { setChapterScroll(activeBookId, book.chapters[activeChapterIndex].id, ratio); }, 400);
+      }
+    }
+  }
+  views.reader.addEventListener('scroll', updateProgressBar, { passive: true });
+
+  function goLibrary() { haptic('light'); activeBookId = null; renderLibrary(); setView('library'); }
+  function onBackButton() { if (current === 'reader') { haptic('light'); goBook(); } else if (current === 'book') { haptic('light'); goLibrary(); } else if (tg) tg.close?.(); }
+  if (tg?.BackButton) { tg.BackButton.onClick(onBackButton); tg.BackButton.hide(); }
+  function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function init() {
+    try { renderLibrary(); setView('library'); } catch (e) { console.error(e); document.getElementById('book-list').innerHTML = `<div style="color:red; padding: 20px;">Ошибка: ${e.message}</div>`; }
+  }
+  return { init, goLibrary, goBook };
+})();
+
+if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', App.init); } else { App.init(); }
+</script>
+</body>
+</html>
