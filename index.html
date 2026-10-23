@@ -242,6 +242,7 @@
 <body>
 
 <div id="app">
+  <!-- БИБЛИОТЕКА -->
   <section class="view active" id="view-library">
     <div class="library-wrap">
       <div class="lib-header">
@@ -252,6 +253,7 @@
     </div>
   </section>
 
+  <!-- КНИГА (TOC) -->
   <section class="view" id="view-book">
     <div class="topbar">
       <button class="topbar-btn" onclick="App.goLibrary()">← Меню</button>
@@ -261,6 +263,7 @@
     <div class="book-view-wrap" id="book-content"></div>
   </section>
 
+  <!-- ЧИТАЛКА -->
   <section class="view" id="view-reader">
     <div class="topbar" style="position:relative;">
       <div class="reader-progress" id="reader-progress"></div>
@@ -272,7 +275,8 @@
   </section>
 </div>
 
-<template id="tpl-phantom-prologue">
+<!-- СКРЫТЫЙ КОНТЕЙНЕР ДЛЯ ТЕКСТА -->
+<div id="prologue-text" style="display:none;">
   <header class="chapter-head">
     <div class="chapter-label">Пролог</div>
     <h2 class="chapter-title">Двенадцатый район</h2>
@@ -358,7 +362,7 @@
 
     <p>Но в ту ночь, когда она впервые восстановила запись из архива, Айра ещё не знала ни имени своего будущего противника, ни того, что её поиски приведут к человеку, который годами работал внутри самой корпорации. Она просто смотрела на два слова в повреждённом журнале и пыталась понять, кто именно не успел — и кого уже было невозможно спасти.</p>
   </article>
-</template>
+</div>
 
 <script>
 const BOOKS = [
@@ -374,7 +378,7 @@ const BOOKS = [
         label: 'Пролог',
         title: 'Двенадцатый район',
         subtitle: 'Двенадцать лет назад',
-        templateId: 'tpl-phantom-prologue'
+        textId: 'prologue-text'
       }
     ]
   }
@@ -481,8 +485,8 @@ const App = (() => {
   function openChapter(index) {
     const book = BOOKS.find(b => b.id === activeBookId); if (!book) return; const ch = book.chapters[index]; if (!ch) return;
     activeChapterIndex = index; document.getElementById('reader-topbar-title').textContent = ch.label + ' · ' + book.title;
-    const tpl = document.getElementById(ch.templateId); const readerContent = document.getElementById('reader-content');
-    readerContent.innerHTML = tpl ? tpl.innerHTML : '<p>Контент не найден.</p>';
+    const textSource = document.getElementById(ch.textId); const readerContent = document.getElementById('reader-content');
+    readerContent.innerHTML = textSource ? textSource.innerHTML : '<p>Текст не найден.</p>';
     const nav = document.createElement('div'); nav.className = 'chapter-nav';
     const prev = document.createElement('button'); prev.textContent = '‹ Назад'; prev.disabled = index === 0; prev.addEventListener('click', () => { haptic('light'); openChapter(index - 1); });
     const next = document.createElement('button'); next.textContent = 'Далее ›'; next.disabled = index >= book.chapters.length - 1; next.addEventListener('click', () => { haptic('light'); openChapter(index + 1); });
