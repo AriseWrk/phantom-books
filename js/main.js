@@ -47,3 +47,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+if (window.Telegram && window.Telegram.WebApp) {
+    const tg = window.Telegram.WebApp;
+    const path = window.location.pathname;
+    let backUrl = null;
+    if (path.includes("/books/")) backUrl = "../../library.html";
+    else if (path.includes("library.html")) backUrl = "index.html";
+    if (backUrl) {
+        tg.BackButton.show();
+        tg.BackButton.onClick(() => { window.location.href = backUrl; });
+    }
+}
+
