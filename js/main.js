@@ -3,6 +3,37 @@ document.addEventListener('DOMContentLoaded', () => {
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
     }
+    
+    // === СОЗДАНИЕ КНОПКИ НАЗАД ===
+    const path = window.location.pathname;
+    let backUrl = null;
+    let backText = "← Назад";
+    if (path.includes("/books/")) {
+        backUrl = "../../library.html";
+        backText = "← Назад в библиотеку";
+    } else if (path.includes("library.html")) {
+        backUrl = "index.html";
+        backText = "← В главное меню";
+    }
+    
+    if (backUrl) {
+        const overlay = document.querySelector('.overlay');
+        if (overlay) {
+            const backLink = document.createElement('a');
+            backLink.href = backUrl;
+            backLink.className = 'back-link';
+            backLink.innerHTML = backText;
+            overlay.insertBefore(backLink, overlay.firstChild);
+        }
+        
+        // Нативная интеграция с Телеграмом
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.BackButton.show();
+            window.Telegram.WebApp.BackButton.onClick(() => { window.location.href = backUrl; });
+        }
+    }
+    
+    // === ЛОГИКА ДЛЯ БИБЛИОТЕКИ ===
     const gridContainer = document.getElementById('books-grid');
     const tabsContainer = document.getElementById('genre-tabs');
     if (gridContainer && tabsContainer) {
@@ -47,15 +78,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-if (window.Telegram && window.Telegram.WebApp) {
-    const tg = window.Telegram.WebApp;
-    const path = window.location.pathname;
-    let backUrl = null;
-    if (path.includes("/books/")) backUrl = "../../library.html";
-    else if (path.includes("library.html")) backUrl = "index.html";
-    if (backUrl) {
-        tg.BackButton.show();
-        tg.BackButton.onClick(() => { window.location.href = backUrl; });
-    }
-}
-
