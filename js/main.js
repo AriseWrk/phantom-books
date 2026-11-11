@@ -1,10 +1,14 @@
+let allBooksData = [];
+let currentGenre = 'Все';
+let currentSearch = '';
+
 document.addEventListener('DOMContentLoaded', () => {
     if (window.Telegram && window.Telegram.WebApp) {
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
     }
     
-    // === УПРАВЛЕНИЕ НАТИВНОЙ КНОПКОЙ НАЗАД ===
+    // Нативная кнопка назад
     const path = window.location.pathname;
     let backUrl = null;
     if (path.includes("/books/")) backUrl = "../../library.html";
@@ -15,13 +19,18 @@ document.addEventListener('DOMContentLoaded', () => {
         window.Telegram.WebApp.BackButton.onClick(() => { window.location.href = backUrl; });
     }
 
-    // === ЛОГИКА БИБЛИОТЕКИ ===
+    // Инициализация главной
+    getRandomQuote();
+    checkVip();
+
+    // Инициализация библиотеки
     const gridContainer = document.getElementById('books-grid');
     const tabsContainer = document.getElementById('genre-tabs');
     if (gridContainer && tabsContainer) {
         fetch('books.json')
             .then(response => response.json())
-            .then(books => { allBooksData = books;
+            .then(books => {
+                allBooksData = books;
                 const genres = ['Все'];
                 books.forEach(b => {
                     if (!genres.includes(b.genre)) genres.push(b.genre);
@@ -34,36 +43,42 @@ document.addEventListener('DOMContentLoaded', () => {
                     btn.addEventListener('click', () => {
                         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                         btn.classList.add('active');
-                        currentGenre = genre; renderBooks();
+                        currentGenre = genre;
+                        renderBooks();
                     });
                     tabsContainer.appendChild(btn);
                 });
                 renderBooks();
             })
-            .catch(e => console.error(e));
+            .catch(e => console.error('Ошибка загрузки JSON:', e));
     }
-    let allBooksData = [];
-let currentGenre = 'Все';
-let currentSearch = '';
+
+    // Инициализация настроек чтения (для страниц книг)
+    applyReadingSettings();
+});
 
 function renderBooks() {
     const gridContainer = document.getElementById('books-grid');
     if (!gridContainer) return;
-    
+
     let filtered = allBooksData;
     if (currentGenre !== 'Все') filtered = filtered.filter(b => b.genre === currentGenre);
     if (currentSearch) filtered = filtered.filter(b => b.title.toLowerCase().includes(currentSearch) || b.genre.toLowerCase().includes(currentSearch));
-    
+
     const favs = getFavorites();
     gridContainer.innerHTML = '';
-    
+
+    if (filtered.length === 0) {
+        gridContainer.innerHTML = '<p style="color: #888; grid-column: 1/-1; text-align: center;">Ничего не найдено</p>';
+        return;
+    }
+
     filtered.forEach(book => {
         const isFav = favs.includes(book.slug);
-        const progress = localStorage.getItem('progress_' + book.slug) || Math.floor(Math.random() * 100); // Симуляция прогресса
-        
+        const progress = localStorage.getItem('progress_' + book.slug) || 0; // Пока прогресс 0
+
         const cardContainer = document.createElement('div');
         cardContainer.className = 'card-container';
-        
         cardContainer.innerHTML = `
             <a href="books/${book.slug}/index.html" class="card">
                 <img src="${book.cover}" alt="${book.title}" onerror="this.src='assets/cover.jpg'">
@@ -81,39 +96,40 @@ function renderBooks() {
 }
 
 function filterBooks() {
-    currentSearch = document.getElementById('search-input').value.toLowerCase();
-    renderBooks();
-});
+    const input = document.getElementById('search-input');
+    if (input) {
+        currentSearch = input.value.toLowerCase();
+        renderBooks();
+    }
+}
 
-// === VIP ЛОГИКА (Симуляция) ===
+// === ИЗБРАННОЕ ===
+function getFavorites() { return JSON.parse(localStorage.getItem('arise_favs') || '[]'); }
+function toggleFavorite(slug, event) {
+    event.preventDefault(); event.stopPropagation();
+    let favs = getFavorites();
+    if (favs.includes(slug)) { favs = favs.filter(f => f !== slug); event.target.classList.remove('active'); }
+    else { favs.push(slug); event.target.classList.add('active'); }
+    localStorage.setItem('arise_favs', JSON.stringify(favs));
+    if (window.Telegram && window.Telegram.WebApp) window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+}
+
+// === VIP ЛОГИКА ===
 function checkVip() {
     const isVip = localStorage.getItem('arise_vip') === 'true';
     const locked = document.getElementById('vip-locked');
     const unlocked = document.getElementById('vip-unlocked');
     if (locked && unlocked) {
-        if (isVip) {
-            locked.style.display = 'none';
-            unlocked.style.display = 'block';
-        } else {
-            locked.style.display = 'block';
-            unlocked.style.display = 'none';
-        }
+        if (isVip) { locked.style.display = 'none'; unlocked.style.display = 'block'; }
+        else { locked.style.display = 'block'; unlocked.style.display = 'none'; }
     }
 }
-
 function unlockVip() {
     if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.showConfirm('Это тестовый режим. Активировать VIP-доступ бесплатно?', (confirmed) => {
-            if (confirmed) {
-                localStorage.setItem('arise_vip', 'true');
-                checkVip();
-                window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
-            }
+        window.Telegram.WebApp.showConfirm('Активировать тестовый VIP-доступ бесплатно?', (confirmed) => {
+            if (confirmed) { localStorage.setItem('arise_vip', 'true'); checkVip(); }
         });
-    } else {
-        localStorage.setItem('arise_vip', 'true');
-        checkVip();
-    }
+    } else { localStorage.setItem('arise_vip', 'true'); checkVip(); }
 }
 
 // === ЦИТАТЫ ===
@@ -125,29 +141,11 @@ const quotes = [
     "«Особый контур стирает всё, кроме правды.»",
     "«Вселенная миров начинается там, где заканчивается страх.»"
 ];
-
 function getRandomQuote() {
     const quoteEl = document.getElementById('random-quote');
-    if (quoteEl) {
-        const randomIndex = Math.floor(Math.random() * quotes.length);
-        quoteEl.innerText = quotes[randomIndex];
-    }
+    if (quoteEl) quoteEl.innerText = quotes[Math.floor(Math.random() * quotes.length)];
 }
 
-// Инициализация при загрузке
-document.addEventListener('DOMContentLoaded', () => {
-    getRandomQuote();
-    checkVip();
-    
-    // Умная кнопка "Назад" для VIP-страницы
-    if (window.location.pathname.includes("vip.html") && window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.BackButton.show();
-        window.Telegram.WebApp.BackButton.onClick(() => { window.location.href = 'index.html'; });
-    }
-});
-
-
-// === ГЕНЕРАТОР ЦИТАТ (CANVAS) ===
 function generateQuoteImage() {
     const canvas = document.createElement('canvas');
     canvas.width = 1080; canvas.height = 1080;
@@ -156,48 +154,21 @@ function generateQuoteImage() {
     img.src = 'assets/bg-universe.jpg';
     img.onload = () => {
         ctx.drawImage(img, 0, 0, 1080, 1080);
-        ctx.fillStyle = 'rgba(0,0,0,0.6)';
-        ctx.fillRect(0, 0, 1080, 1080);
-        
+        ctx.fillStyle = 'rgba(0,0,0,0.6)'; ctx.fillRect(0, 0, 1080, 1080);
         const quoteText = document.getElementById('random-quote').innerText;
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 50px -apple-system, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        
-        // Перенос строк
-        const words = quoteText.split(' ');
-        let line = '', lines = [];
+        ctx.fillStyle = '#ffffff'; ctx.font = 'bold 50px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        const words = quoteText.split(' '); let line = '', lines = [];
         words.forEach(word => {
             let testLine = line + word + ' ';
-            if (ctx.measureText(testLine).width > 800) { lines.push(line); line = word + ' '; }
-            else { line = testLine; }
+            if (ctx.measureText(testLine).width > 800) { lines.push(line); line = word + ' '; } else { line = testLine; }
         });
         lines.push(line);
-        
         let startY = 540 - ((lines.length - 1) * 35);
         lines.forEach((l, i) => { ctx.fillText(l.trim(), 540, startY + (i * 70)); });
-        
-        ctx.font = '30px -apple-system, sans-serif';
-        ctx.fillStyle = '#ff4b4b';
-        ctx.fillText('Александр Голубцов • ARISE', 540, 850);
-
+        ctx.font = '30px sans-serif'; ctx.fillStyle = '#ff4b4b'; ctx.fillText('Александр Голубцов • ARISE', 540, 850);
         const link = document.createElement('a');
-        link.download = 'arise_quote.jpg';
-        link.href = canvas.toDataURL('image/jpeg');
-        link.click();
-        if (window.Telegram && window.Telegram.WebApp) window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+        link.download = 'arise_quote.jpg'; link.href = canvas.toDataURL('image/jpeg'); link.click();
     };
-}
-
-// === ИЗБРАННОЕ ===
-function getFavorites() { return JSON.parse(localStorage.getItem('arise_favs') || '[]'); }
-function toggleFavorite(slug, event) {
-    event.preventDefault(); event.stopPropagation();
-    let favs = getFavorites();
-    if (favs.includes(slug)) { favs = favs.filter(f => f !== slug); event.target.classList.remove('active'); }
-    else { favs.push(slug); event.target.classList.add('active'); }
-    localStorage.setItem('arise_favs', JSON.stringify(favs));
 }
 
 // === НАСТРОЙКИ ЧТЕНИЯ ===
@@ -207,7 +178,6 @@ function applyReadingSettings() {
     const fontSize = localStorage.getItem('arise_font_size') || '1rem';
     const fontType = localStorage.getItem('arise_font_type') || 'sans';
     const theme = localStorage.getItem('arise_theme') || 'dark';
-    
     content.style.fontSize = fontSize;
     content.className = `book-text-content font-${fontType} theme-${theme}`;
 }
@@ -215,4 +185,3 @@ function changeSetting(key, value) {
     localStorage.setItem(key, value);
     applyReadingSettings();
 }
-
