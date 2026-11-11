@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const gridContainer = document.getElementById('books-grid');
     
-    // Добавляем проверку: если на странице есть сетка книг, то загружаем их
+    // Добавляем proverku: если на странице есть сетка книг, то загружаем их
     if (gridContainer) {
         fetch('books.json')
             .then(response => response.json())

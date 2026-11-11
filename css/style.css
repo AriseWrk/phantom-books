@@ -2,7 +2,7 @@
 body { background-image: url('../assets/bg-universe.jpg'); background-size: cover; background-position: center; background-attachment: fixed; color: #fff; min-height: 100vh; display: flex; flex-direction: column; }
 .overlay { background: linear-gradient(to bottom, rgba(10, 10, 15, 0.7) 0%, rgba(5, 5, 10, 0.95) 100%); min-height: 100vh; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; }
 
-/* Стили для главного меню (Хаб) */
+/* стили для главного меню (Хаб�) */
 .hub-overlay { justify-content: center; }
 .hub-header { text-align: left; width: 100%; max-width: 600px; margin-bottom: 30px; }
 .brand-tag { color: #ff4b4b; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; }
@@ -16,7 +16,7 @@ body { background-image: url('../assets/bg-universe.jpg'); background-size: cove
 .hub-card span { font-weight: 600; font-size: 0.95rem; text-align: center; }
 .hub-footer { text-align: center; color: #888; font-size: 0.85rem; line-height: 1.5; margin-top: 20px; }
 
-/* Стили для страницы Библиотеки и карточек */
+/* стили для страницы Библиотеки и карточек */
 header { text-align: center; margin-bottom: 30px; margin-top: 10px; width: 100%; max-width: 800px; position: relative; }
 .back-link { display: inline-block; color: #aaa; text-decoration: none; margin-bottom: 20px; font-size: 0.9rem; position: absolute; left: 0; top: -20px; }
 h1 { font-size: 2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; background: linear-gradient(90deg, #ff4b4b, #ff8c8c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
