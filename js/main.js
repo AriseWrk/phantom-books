@@ -2,7 +2,6 @@ let allBooksData = [];
 let currentGenre = 'Все';
 let currentSearch = '';
 
-// Безопасное обращение к localStorage (чтобы не падало в инкогнито)
 const safeStorage = {
     get: (key) => { try { return localStorage.getItem(key); } catch(e) { return null; } },
     set: (key, val) => { try { localStorage.setItem(key, val); } catch(e) { console.warn('Storage blocked'); } }
@@ -14,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.Telegram.WebApp.expand();
     }
     
-    // Нативная кнопка назад
     const path = window.location.pathname;
     let backUrl = null;
     if (path.includes("/books/")) backUrl = "../../library.html";
@@ -107,7 +105,6 @@ function filterBooks() {
     }
 }
 
-// === ИЗБРАННОЕ ===
 function toggleFavorite(slug, event) {
     event.preventDefault(); event.stopPropagation();
     let favs = JSON.parse(safeStorage.get('arise_favs') || '[]');
@@ -119,7 +116,6 @@ function toggleFavorite(slug, event) {
     }
 }
 
-// === VIP ЛОГИКА ===
 function checkVip() {
     const isVip = safeStorage.get('arise_vip') === 'true';
     const locked = document.getElementById('vip-locked');
@@ -137,14 +133,12 @@ function unlockVip() {
     } else { safeStorage.set('arise_vip', 'true'); checkVip(); }
 }
 
-// === ЦИТАТЫ ===
 const quotes = [
     "«Двенадцатый район не прощает ошибок. Он их коллекционирует.»",
-    "«Тайны Сибири не спят. Они ждут.»",
-    "«В Ордене нет друзей, есть только цели.»",
-    "«Любовь на Манхэттене — это игра по особым правилам.»",
+    "Тайны Сибири не слят. Они ждут.»",
+   "«В Ордене нет друзей, есть только цели.»�����&�c�,t/�,�c4/t,4'4,4/tatattenе — это игра по особым правилам.",
     "«Особый контур стирает всё, кроме правды.»",
-    "«Вселенная миров начинается там, где заканчивается страх.»"
+    "«Всленная миров начинается там, где заканчивается страх.»"
 ];
 function getRandomQuote() {
     const quoteEl = document.getElementById('random-quote');
@@ -172,14 +166,13 @@ function generateQuoteImage() {
         lines.push(line);
         let startY = 540 - ((lines.length - 1) * 35);
         lines.forEach((l, i) => { ctx.fillText(l.trim(), 540, startY + (i * 70)); });
-        ctx.font = '30px sans-serif'; ctx.fillStyle = '#ff4b4b'; ctx.fillText('Александр Голубцов • ARISE', 540, 850);
+        ctx.font = '30px sans-serif'; ctx.fillStyle = '#ff4b4b; ctx.fillText('Александр Голубцов • ARISE', 540, 850);
         const link = document.createElement('a');
         link.download = 'arise_quote.jpg'; link.href = canvas.toDataURL('image/jpeg'); link.click();
     };
     img.onerror = () => alert('Не удалось загрузить фон для цитаты.');
 }
 
-// === НАСТРОЙКИ ЧТЕНИЯ ===
 function applyReadingSettings() {
     const content = document.querySelector('.book-text-content');
     if (!content) return;
