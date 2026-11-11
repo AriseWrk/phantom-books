@@ -2,6 +2,12 @@ let allBooksData = [];
 let currentGenre = 'Все';
 let currentSearch = '';
 
+// Безопасное обращение к localStorage (чтобы не падало в инкогнито)
+const safeStorage = {
+    get: (key) => { try { return localStorage.getItem(key); } catch(e) { return null; } },
+    set: (key, val) => { try { localStorage.setItem(key, val); } catch(e) { console.warn('Storage blocked'); } }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     if (window.Telegram && window.Telegram.WebApp) {
         window.Telegram.WebApp.ready();
@@ -14,16 +20,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (path.includes("/books/")) backUrl = "../../library.html";
     else if (path.includes("library.html") || path.includes("news.html") || path.includes("lore.html") || path.includes("vip.html") || path.includes("gallery.html") || path.includes("social.html") || path.includes("digital.html")) backUrl = "index.html";
     
-    if (backUrl && window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.BackButton.show();
-        window.Telegram.WebApp.BackButton.onClick(() => { window.location.href = backUrl; });
+    if (backUrl && window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.BackButton) {
+        try {
+            window.Telegram.WebApp.BackButton.show();
+            window.Telegram.WebApp.BackButton.onClick(() => { window.location.href = backUrl; });
+        } catch (e) { console.warn('BackButton not supported', e); }
     }
 
-    // Инициализация главной
     getRandomQuote();
     checkVip();
 
-    // Инициализация библиотеки
     const gridContainer = document.getElementById('books-grid');
     const tabsContainer = document.getElementById('genre-tabs');
     if (gridContainer && tabsContainer) {
@@ -52,8 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(e => console.error('Ошибка загрузки JSON:', e));
     }
-
-    // Инициализация настроек чтения (для страниц книг)
     applyReadingSettings();
 });
 
@@ -65,17 +69,17 @@ function renderBooks() {
     if (currentGenre !== 'Все') filtered = filtered.filter(b => b.genre === currentGenre);
     if (currentSearch) filtered = filtered.filter(b => b.title.toLowerCase().includes(currentSearch) || b.genre.toLowerCase().includes(currentSearch));
 
-    const favs = getFavorites();
+    const favs = JSON.parse(safeStorage.get('arise_favs') || '[]');
     gridContainer.innerHTML = '';
 
     if (filtered.length === 0) {
-        gridContainer.innerHTML = '<p style="color: #888; grid-column: 1/-1; text-align: center;">Ничего не найдено</p>';
+        gridContainer.innerHTML = '<p style="color: #888; grid-column: 1/-1; text-align: center; margin-top:20px;">Ничего не найдено</p>';
         return;
     }
 
     filtered.forEach(book => {
         const isFav = favs.includes(book.slug);
-        const progress = localStorage.getItem('progress_' + book.slug) || 0; // Пока прогресс 0
+        const progress = safeStorage.get('progress_' + book.slug) || 0;
 
         const cardContainer = document.createElement('div');
         cardContainer.className = 'card-container';
@@ -98,25 +102,26 @@ function renderBooks() {
 function filterBooks() {
     const input = document.getElementById('search-input');
     if (input) {
-        currentSearch = input.value.toLowerCase();
+        currentSearch = input.value.toLowerCase().trim();
         renderBooks();
     }
 }
 
 // === ИЗБРАННОЕ ===
-function getFavorites() { return JSON.parse(localStorage.getItem('arise_favs') || '[]'); }
 function toggleFavorite(slug, event) {
     event.preventDefault(); event.stopPropagation();
-    let favs = getFavorites();
+    let favs = JSON.parse(safeStorage.get('arise_favs') || '[]');
     if (favs.includes(slug)) { favs = favs.filter(f => f !== slug); event.target.classList.remove('active'); }
     else { favs.push(slug); event.target.classList.add('active'); }
-    localStorage.setItem('arise_favs', JSON.stringify(favs));
-    if (window.Telegram && window.Telegram.WebApp) window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+    safeStorage.set('arise_favs', JSON.stringify(favs));
+    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.impactOccurred('light'); } catch(e){}
+    }
 }
 
 // === VIP ЛОГИКА ===
 function checkVip() {
-    const isVip = localStorage.getItem('arise_vip') === 'true';
+    const isVip = safeStorage.get('arise_vip') === 'true';
     const locked = document.getElementById('vip-locked');
     const unlocked = document.getElementById('vip-unlocked');
     if (locked && unlocked) {
@@ -125,11 +130,11 @@ function checkVip() {
     }
 }
 function unlockVip() {
-    if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.showConfirm('Активировать тестовый VIP-доступ бесплатно?', (confirmed) => {
-            if (confirmed) { localStorage.setItem('arise_vip', 'true'); checkVip(); }
+    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.showConfirm) {
+        window.Telegram.WebApp.showConfirm('Активировать тестовый VIP-доступ?', (confirmed) => {
+            if (confirmed) { safeStorage.set('arise_vip', 'true'); checkVip(); }
         });
-    } else { localStorage.setItem('arise_vip', 'true'); checkVip(); }
+    } else { safeStorage.set('arise_vip', 'true'); checkVip(); }
 }
 
 // === ЦИТАТЫ ===
@@ -147,6 +152,8 @@ function getRandomQuote() {
 }
 
 function generateQuoteImage() {
+    const quoteEl = document.getElementById('random-quote');
+    if (!quoteEl) return;
     const canvas = document.createElement('canvas');
     canvas.width = 1080; canvas.height = 1080;
     const ctx = canvas.getContext('2d');
@@ -155,7 +162,7 @@ function generateQuoteImage() {
     img.onload = () => {
         ctx.drawImage(img, 0, 0, 1080, 1080);
         ctx.fillStyle = 'rgba(0,0,0,0.6)'; ctx.fillRect(0, 0, 1080, 1080);
-        const quoteText = document.getElementById('random-quote').innerText;
+        const quoteText = quoteEl.innerText;
         ctx.fillStyle = '#ffffff'; ctx.font = 'bold 50px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         const words = quoteText.split(' '); let line = '', lines = [];
         words.forEach(word => {
@@ -169,19 +176,20 @@ function generateQuoteImage() {
         const link = document.createElement('a');
         link.download = 'arise_quote.jpg'; link.href = canvas.toDataURL('image/jpeg'); link.click();
     };
+    img.onerror = () => alert('Не удалось загрузить фон для цитаты.');
 }
 
 // === НАСТРОЙКИ ЧТЕНИЯ ===
 function applyReadingSettings() {
     const content = document.querySelector('.book-text-content');
     if (!content) return;
-    const fontSize = localStorage.getItem('arise_font_size') || '1rem';
-    const fontType = localStorage.getItem('arise_font_type') || 'sans';
-    const theme = localStorage.getItem('arise_theme') || 'dark';
+    const fontSize = safeStorage.get('arise_font_size') || '1rem';
+    const fontType = safeStorage.get('arise_font_type') || 'sans';
+    const theme = safeStorage.get('arise_theme') || 'dark';
     content.style.fontSize = fontSize;
     content.className = `book-text-content font-${fontType} theme-${theme}`;
 }
 function changeSetting(key, value) {
-    localStorage.setItem(key, value);
+    safeStorage.set(key, value);
     applyReadingSettings();
 }

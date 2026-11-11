@@ -35,7 +35,11 @@
     "type": "buy",
     "slug": "limoncello",
     "buyLinks": [
-      { "name": "Ozon", "url": "https://ozon.ru/", "icon": "ozon" },
+      {
+        "name": "Ozon",
+        "url": "https://ozon.ru/",
+        "icon": "ozon"
+      },
       {
         "name": "Wildberries",
         "url": "https://www.wildberries.ru/",
