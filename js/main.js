@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.Telegram.WebApp.expand();
     }
     
-    // === ТОЛЬКо НАТИВНАЯ КНОПКА ЗАД ===
+    // === УПРАВЛЕНИЕ НАТИВНОЙ КНОПКОЙ НАЗАД ===
     const path = window.location.pathname;
     let backUrl = null;
     if (path.includes("/books/")) backUrl = "../../library.html";
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.Telegram.WebApp.BackButton.onClick(() => { window.location.href = backUrl; });
     }
 
-    // === ЛОГИКА ДЛЯ БИБЛИОТЕКИ ===
+    // === ЛОГИКА БИБЛИОТЕКИ ===
     const gridContainer = document.getElementById('books-grid');
     const tabsContainer = document.getElementById('genre-tabs');
     if (gridContainer && tabsContainer) {
