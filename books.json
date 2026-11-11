@@ -3,7 +3,7 @@
     "id": "phantom",
     "title": "PHANTOM",
     "genre": "Фантастика",
-    "description": "Киберпанк, вышедший из под контроля",
+    "description": "Мрачный мир, где технология переплетается с чем-то древним и пугающим.",
     "cover": "assets/cover.jpg",
     "type": "read",
     "slug": "phantom_district"
@@ -12,7 +12,7 @@
     "id": "siberian_code",
     "title": "Сибирский Код",
     "genre": "Фантастика",
-    "description": "Вирус, вышедший из под контроля.",
+    "description": "Тайны Сибири, которые лучше не раскрыть.",
     "cover": "assets/covers/siberian.jpg",
     "type": "read",
     "slug": "siberian_code"
@@ -29,29 +29,21 @@
   {
     "id": "limoncello",
     "title": "Лимончелло на двоих",
-    "genre": "СЛР",
-    "description": "История о любви, проживающей в сердце и эмоциях. Печатная книга.",
+    "genre": "Селы",
+    "description": "История о любви, проживающей в с�ердце мести и эмоциях. Печатная книга.",
     "cover": "assets/covers/limoncello.jpg",
     "type": "buy",
     "slug": "limoncello",
     "buyLinks": [
-      {
-        "name": "Ozon",
-        "url": "https://ozon.ru/",
-        "icon": "ozon"
-      },
-      {
-        "name": "Wildberries",
-        "url": "https://www.wildberries.ru/",
-        "icon": "wb"
-      }
+      { "name": "Ozon", "url": "https://ozon.ru/", "icon": "ozon" },
+      { "name": "Wildberries", "url": "https://www.wildberries.ru/", "icon": "wb" }
     ]
   },
   {
     "id": "roxy",
-    "title": "Рокс на Манхеттене",
-    "genre": "СЛР",
-    "description": "Романтика большого города и страстные приключения.",
+    "title": "Poks на Манхеттене",
+    "genre": "Селя",
+    "description": "Романтика большого города и страстные переприключения.",
     "cover": "assets/covers/roxy.jpg",
     "type": "read",
     "slug": "roxy_manhattan"
@@ -59,7 +51,7 @@
   {
     "id": "contour",
     "title": "Особый контур",
-    "genre": "Антиутопия",
+    "genre": "Антиутопии",
     "description": "Мир, где человечество на грани выживания.",
     "cover": "assets/covers/contour.jpg",
     "type": "read",
