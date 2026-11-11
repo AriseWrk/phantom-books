@@ -13,6 +13,11 @@
             <h1>Библиотека</h1>
             <p class="subtitle">Откройте мир вместе с автором</p>
         </header>
+        
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Поиск по названию или жанру..." oninput="filterBooks()">
+        </div>
+
         <div class="tabs" id="genre-tabs"></div>
         <main class="grid" id="books-grid"></main>
     </div>

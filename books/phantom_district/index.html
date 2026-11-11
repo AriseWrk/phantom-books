@@ -16,12 +16,12 @@
             <h1>PHANTOM</h1>
             <p class="author">Александр Голубцов</p>
 
-            <a href="#" class="buy-btn read">Читать книгу</a>
+            <button onclick="alert('Чтение начнется в следующем обновлении!')" class="buy-btn read">Читать книгу</button>
 
             <details class="info-block" open>
                 <summary>Аннотация</summary>
                 <div class="content">
-                    <p>Этот захватывающий мир ждет вас. Здесь будет находится официальная аннотация к книге "PHANTOM". Добро пожаловать в новую реальность.</p>
+                    <p>Этот захватывающий мир ждет вас. Здесь будет находится официальная аннотация к книге "PHANTOM".</p>
                 </div>
             </details>
 
@@ -30,9 +30,8 @@
                 <div class="content">
                     <ul class="chapter-list">
                         <li>Пролог <span>Готово</span></li>
-                        <li>Глава 1. Начало <span>Готово</span></li>
-                        <li>Глава 2. Тайны <span>Готово</span></li>
-                        <li>Глава 3. Финал <span>В работе</span></li>
+                        <li>Глава 1 <span>Готово</span></li>
+                        <li>Глава 2 <span>В работе</span></li>
                     </ul>
                 </div>
             </details>
@@ -40,18 +39,33 @@
             <details class="info-block">
                 <summary>Миры и лор</summary>
                 <div class="content">
-                    <p>Хотите узнать больше о правилах этого мира, фракциях и истории? Переходите в <a href="../../lore.html" style="color:#ff4b4b; text-decoration:underline;">Миры и лор</a>.</p>
-                </div>
-            </details>
-
-            <details class="info-block">
-                <summary>Заметки автора</summary>
-                <div class="content">
-                    <p>Здесь Александр будет делиться мыслями о процессе создания этой книги, отсылками и секретами.</p>
+                    <p>Узнайте больше о правилах этого мира в разделе <a href="../../lore.html" style="color:#ff4b4b;">Миры и лор</a>.</p>
                 </div>
             </details>
         </div>
+        
+        <!-- Тестовый блок текста для проверки настроек -->
+        <div style="width: 100%; max-width: 600px; margin-top: 30px;">
+            <div class="book-text-content">
+                <p>Это тестовый текст для проверки настроек чтения. Нажмите на красную кнопку "Aa" в правом нижнем углу, чтобы изменить размер шрифта, гарнитуру или тему оформления. Все настройки сохранятся в вашем телефоне.</p>
+            </div>
+        </div>
+
+        <button class="settings-btn" onclick="document.getElementById('settings-modal').classList.add('active')">Aa</button>
     </div>
+
+    <!-- Модалка настроек -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="document.getElementById('settings-modal').classList.remove('active')">×</button>
+            <h3 style="margin-bottom: 20px;">Настройки чтения</h3>
+            <div class="setting-row"><span>Размер шрифта</span><div><button onclick="changeSetting('arise_font_size', '1rem')">A</button> <button onclick="changeSetting('arise_font_size', '1.3rem')">A+</button></div></div>
+            <div class="setting-row"><span>Шрифт</span><div><button onclick="changeSetting('arise_font_type', 'sans')">Без засечек</button> <button onclick="changeSetting('arise_font_type', 'serif')">С засечками</button></div></div>
+            <div class="setting-row"><span>Тема</span><div><button onclick="changeSetting('arise_theme', 'dark')">Темная</button> <button onclick="changeSetting('arise_theme', 'sepia')">Сепия</button></div></div>
+        </div>
+    </div>
+
     <script src="../../js/main.js"></script>
+    <script>applyReadingSettings();</script>
 </body>
 </html>

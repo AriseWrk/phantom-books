@@ -9,19 +9,17 @@
 </head>
 <body>
     <div class="overlay">
-        <header>
+        <div class="book-page">
             <h1>Миры и Лор</h1>
-            <p class="subtitle">Глубины вселенной Александра Голубцова</p>
-        </header>
-        <div class="grid" style="grid-template-columns: 1fr;">
-            <div class="info-block" open>
-                <summary>Хронология событий</summary>
-                <div class="content"><p>Здесь будет подробная хронология миров. Текст в разработке.</p></div>
+            <p class="author">Интерактивная карта вселенной</p>
+            
+            <div class="map-container">
+                <img src="assets/bg-universe.jpg" class="map-img">
+                <div class="map-point" style="top: 40%; left: 30%;" onclick="alert('Сектор 7: Родина ордена. Здесь начинается история Двенадцатого района.')"></div>
+                <div class="map-point" style="top: 60%; left: 70%;" onclick="alert('Манхэттен 2084: Мир неоновых огней и опасных сделок.')"></div>
+                <div class="map-point" style="top: 20%; left: 50%;" onclick="alert('Сибирь: Забытые земли, скрывающие древний код.')"></div>
             </div>
-            <div class="info-block">
-                <summary>Карта миров</summary>
-                <div class="content"><p>Интерактивная карта появится позже.</p></div>
-            </div>
+            <p style="margin-top: 15px; font-size: 0.85rem; color: #888;">Нажмите на пульсирующие точки, чтобы узнать о локации.</p>
         </div>
     </div>
     <script src="js/main.js"></script>

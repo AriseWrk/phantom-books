@@ -18,7 +18,10 @@
 
         <div class="quote-block" id="quote-container">
             <p id="random-quote">"Загрузка мудрости..."</p>
-            <button onclick="getRandomQuote()" class="refresh-btn">🔄 Другая цитата</button>
+            <div style="display: flex; gap: 15px; margin-top: 10px;">
+                <button onclick="getRandomQuote()" class="refresh-btn" style="margin:0;">🔄 Другая</button>
+                <button onclick="generateQuoteImage()" class="refresh-btn" style="margin:0;">🖼️ Скачать в Stories</button>
+            </div>
         </div>
 
         <div class="hub-menu">
