@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Арт-галерея - ARISE</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 100%; max-width: 800px; }
+        .gallery img { width: 100%; height: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; cursor: pointer; transition: 0.3s; border: 1px solid rgba(255,255,255,0.1); }
+        .gallery img:active { transform: scale(0.95); }
+        .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
+        .lightbox.active { display: flex; }
+        .lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; }
+        .lightbox .close { position: absolute; top: 20px; right: 20px; font-size: 2rem; color: #fff; cursor: pointer; background: none; border: none; }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <div class="book-page">
+            <h1>Арт-галерея</h1>
+            <p class="author">Визуальный код вселенной</p>
+            <div class="gallery" id="gallery-grid">
+                <img src="assets/img-0790.jpg" alt="Арт 1" onclick="openLightbox(this.src)">
+                <img src="assets/img-0791.jpg" alt="Арт 2" onclick="openLightbox(this.src)">
+                <img src="assets/img-0792.jpg" alt="Арт 3" onclick="openLightbox(this.src)">
+                <img src="assets/bg-universe.jpg" alt="Вселенная" onclick="openLightbox(this.src)">
+                <img src="assets/cover.jpg" alt="PHANTOM" onclick="openLightbox(this.src)">
+            </div>
+        </div>
+    </div>
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <button class="close">×</button>
+        <img id="lightbox-img" src="" alt="Просмотр">
+    </div>
+    <script src="js/main.js"></script>
+    <script>
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox').classList.add('active');
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+    </script>
+</body>
+</html>

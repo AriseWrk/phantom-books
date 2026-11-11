@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const path = window.location.pathname;
     let backUrl = null;
     if (path.includes("/books/")) backUrl = "../../library.html";
-    else if (path.includes("library.html")) backUrl = "index.html";
+    else if (path.includes("library.html") || path.includes("news.html") || path.includes("lore.html") || path.includes("vip.html") || path.includes("gallery.html") || path.includes("social.html") || path.includes("digital.html")) backUrl = "index.html";
     
     if (backUrl && window.Telegram && window.Telegram.WebApp) {
         window.Telegram.WebApp.BackButton.show();
@@ -121,3 +121,4 @@ document.addEventListener('DOMContentLoaded', () => {
         window.Telegram.WebApp.BackButton.onClick(() => { window.location.href = 'index.html'; });
     }
 });
+
