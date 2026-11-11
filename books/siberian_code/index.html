@@ -3,19 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Книга - ARISE</title>
+    <title>Сибирский Код - ARISE</title>
     <link rel="stylesheet" href="../../css/style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body { background-image: url('../../assets/backgrounds/bg-siberian.jpg') !important; }
-        .overlay { background: linear-gradient(to bottom, rgba(10, 10, 15, 0.7) 0%, rgba(5, 5, 10, 0.95) 100%) !important; }
-    </style>
+    <style>body { background-image: url('../../assets/backgrounds/bg-siberian.jpg') !important; }</style>
 </head>
 <body>
     <div class="overlay">
         <div class="book-page">
-            <h1>Скоро здесь появится книга</h1>
-            <p class="author">Текст находится в разработке</p>
+            <img class="cover" src="../../assets/covers/siberian.jpg" onerror="this.src='../../assets/cover.jpg'">
+            <span class="genre-tag">Фантастика</span>
+            <h1>Сибирский Код</h1>
+            <p class="author">Александр Голубцов</p>
+
+            <a href="#" class="buy-btn read">Читать книгу</a>
+
+            <details class="info-block" open>
+                <summary>Аннотация</summary>
+                <div class="content">
+                    <p>Этот захватывающий мир ждет вас. Здесь будет находится официальная аннотация к книге "Сибирский Код". Добро пожаловать в новую реальность.</p>
+                </div>
+            </details>
+
+            <details class="info-block">
+                <summary>Оглавление</summary>
+                <div class="content">
+                    <ul class="chapter-list">
+                        <li>Пролог <span>Готово</span></li>
+                        <li>Глава 1. Начало <span>Готово</span></li>
+                        <li>Глава 2. Тайны <span>Готово</span></li>
+                        <li>Глава 3. Финал <span>В работе</span></li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="info-block">
+                <summary>Миры и лор</summary>
+                <div class="content">
+                    <p>Хотите узнать больше о правилах этого мира, фракциях и истории? Переходите в <a href="../../lore.html" style="color:#ff4b4b; text-decoration:underline;">Миры и лор</a>.</p>
+                </div>
+            </details>
+
+            <details class="info-block">
+                <summary>Заметки автора</summary>
+                <div class="content">
+                    <p>Здесь Александр будет делиться мыслями о процессе создания этой книги, отсылками и секретами.</p>
+                </div>
+            </details>
         </div>
     </div>
     <script src="../../js/main.js"></script>
