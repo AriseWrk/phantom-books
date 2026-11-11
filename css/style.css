@@ -1,113 +1,31 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+body { background-image: url('../assets/bg-universe.jpg'); background-size: cover; background-position: center; background-attachment: fixed; color: #fff; min-height: 100vh; display: flex; flex-direction: column; }
+.overlay { background: linear-gradient(to bottom, rgba(10, 10, 15, 0.7) 0%, rgba(5, 5, 10, 0.95) 100%); min-height: 100vh; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; }
 
-body {
-    background-image: url('../assets/bg-universe.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    color: #ffffff;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
+/* Стили для главного меню (Хаб) */
+.hub-overlay { justify-content: center; }
+.hub-header { text-align: left; width: 100%; max-width: 600px; margin-bottom: 30px; }
+.brand-tag { color: #ff4b4b; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; }
+.hub-header h1 { margin-top: 10px; font-size: 2.2rem; text-align: left; background: none; -webkit-text-fill-color: #fff; text-shadow: none; text-transform: none; letter-spacing: normal; font-weight: 800; }
+.hub-header h2 { font-size: 1.3rem; color: #ffb3b3; font-weight: 400; margin-bottom: 15px; text-align: left; }
+.tagline { font-style: italic; color: #ccc; font-size: 1rem; }
+.hub-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 600px; margin-bottom: 30px; }
+.hub-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 25px 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; color: #fff; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: 0.2s; gap: 12px; }
+.hub-card:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.1); }
+.hub-card svg { width: 32px; height: 32px; stroke: #ff4b4b; }
+.hub-card span { font-weight: 600; font-size: 0.95rem; text-align: center; }
+.hub-footer { text-align: center; color: #888; font-size: 0.85rem; line-height: 1.5; margin-top: 20px; }
 
-.overlay {
-    background: linear-gradient(to bottom, rgba(10, 10, 15, 0.7) 0%, rgba(5, 5, 10, 0.95) 100%);
-    min-height: 100vh;
-    padding: 40px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-header {
-    text-align: center;
-    margin-bottom: 40px;
-    margin-top: 20px;
-}
-
-h1 {
-    font-size: 2rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    background: linear-gradient(90deg, #ff4b4b, #ff8c8c);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 10px;
-    text-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
-}
-
-p.subtitle {
-    font-size: 1rem;
-    color: #cccccc;
-    font-weight: 400;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 20px;
-    width: 100%;
-    max-width: 800px;
-}
-
-.card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-
-.card:active {
-    transform: scale(0.97);
-}
-
-.card img {
-    width: 100%;
-    aspect-ratio: 2/3;
-    object-fit: cover;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.card-content {
-    padding: 12px;
-}
-
-.genre-tag {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    color: #ff4b4b;
-    font-weight: bold;
-    letter-spacing: 1px;
-    margin-bottom: 5px;
-    display: block;
-}
-
-.card h3 {
-    font-size: 1rem;
-    margin-bottom: 5px;
-    line-height: 1.2;
-}
-
-.card p {
-    font-size: 0.8rem;
-    color: #aaaaaa;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
+/* Стили для страницы Библиотеки и карточек */
+header { text-align: center; margin-bottom: 30px; margin-top: 10px; width: 100%; max-width: 800px; position: relative; }
+.back-link { display: inline-block; color: #aaa; text-decoration: none; margin-bottom: 20px; font-size: 0.9rem; position: absolute; left: 0; top: -20px; }
+h1 { font-size: 2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; background: linear-gradient(90deg, #ff4b4b, #ff8c8c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
+p.subtitle { font-size: 1rem; color: #cccccc; font-weight: 400; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; width: 100%; max-width: 800px; }
+.card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; overflow: hidden; cursor: pointer; transition: transform 0.2s; text-decoration: none; color: inherit; display: flex; flex-direction: column; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.card:active { transform: scale(0.97); }
+.card img { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+.card-content { padding: 12px; }
+.genre-tag { font-size: 0.7rem; text-transform: uppercase; color: #ff4b4b; font-weight: bold; letter-spacing: 1px; margin-bottom: 5px; display: block; }
+.card h3 { font-size: 1rem; margin-bottom: 5px; line-height: 1.2; }
+.card p { font-size: 0.8rem; color: #aaaaaa; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
