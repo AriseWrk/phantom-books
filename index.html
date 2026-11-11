@@ -15,20 +15,28 @@
             <h2>Александра Голубцова</h2>
             <p class="tagline">Каждая история — новая реальность.</p>
         </div>
+
+        <div class="quote-block" id="quote-container">
+            <p id="random-quote">"Загрузка мудрости..."</p>
+            <button onclick="getRandomQuote()" class="refresh-btn">🔄 Другая цитата</button>
+        </div>
+
         <div class="hub-menu">
             <a href="library.html" class="hub-card">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
                 <span>Библиотека</span>
             </a>
-            <a href="#" class="hub-card">
+            <a href="https://t.me/ariseliterature" target="_blank" class="hub-card">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                 <span>Сообщество</span>
             </a>
-            <a href="lore.html" class="hub-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg><span>Миры и лор</span>
+            <a href="lore.html" class="hub-card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                <span>Миры и лор</span>
             </a>
-            <a href="#" class="hub-card">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                <span>Новости автора</span>
+            <a href="vip.html" class="hub-card vip-card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                <span>VIP Клуб</span>
             </a>
         </div>
         <div class="hub-footer">
@@ -38,4 +46,3 @@
     <script src="js/main.js"></script>
 </body>
 </html>
-

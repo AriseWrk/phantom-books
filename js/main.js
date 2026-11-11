@@ -60,3 +60,64 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// === VIP ЛОГИКА (Симуляция) ===
+function checkVip() {
+    const isVip = localStorage.getItem('arise_vip') === 'true';
+    const locked = document.getElementById('vip-locked');
+    const unlocked = document.getElementById('vip-unlocked');
+    if (locked && unlocked) {
+        if (isVip) {
+            locked.style.display = 'none';
+            unlocked.style.display = 'block';
+        } else {
+            locked.style.display = 'block';
+            unlocked.style.display = 'none';
+        }
+    }
+}
+
+function unlockVip() {
+    if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.showConfirm('Это тестовый режим. Активировать VIP-доступ бесплатно?', (confirmed) => {
+            if (confirmed) {
+                localStorage.setItem('arise_vip', 'true');
+                checkVip();
+                window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+            }
+        });
+    } else {
+        localStorage.setItem('arise_vip', 'true');
+        checkVip();
+    }
+}
+
+// === ЦИТАТЫ ===
+const quotes = [
+    "«Двенадцатый район не прощает ошибок. Он их коллекционирует.»",
+    "«Тайны Сибири не спят. Они ждут.»",
+    "«В Ордене нет друзей, есть только цели.»",
+    "«Любовь на Манхэттене — это игра по особым правилам.»",
+    "«Особый контур стирает всё, кроме правды.»",
+    "«Вселенная миров начинается там, где заканчивается страх.»"
+];
+
+function getRandomQuote() {
+    const quoteEl = document.getElementById('random-quote');
+    if (quoteEl) {
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        quoteEl.innerText = quotes[randomIndex];
+    }
+}
+
+// Инициализация при загрузке
+document.addEventListener('DOMContentLoaded', () => {
+    getRandomQuote();
+    checkVip();
+    
+    // Умная кнопка "Назад" для VIP-страницы
+    if (window.location.pathname.includes("vip.html") && window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.BackButton.show();
+        window.Telegram.WebApp.BackButton.onClick(() => { window.location.href = 'index.html'; });
+    }
+});

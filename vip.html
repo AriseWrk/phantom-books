@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VIP Клуб - ARISE</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="overlay">
+        <div class="book-page">
+            <span class="genre-tag" style="color: gold; font-size: 1rem;">ARISE PREMIUM</span>
+            <h1 style="background: linear-gradient(90deg, #ffd700, #ff8c00); -webkit-background-clip: text;">VIP Клуб</h1>
+            <p class="author">Закрытый доступ к тайнам вселенной</p>
+            
+            <div id="vip-locked" style="width: 100%;">
+                <img src="assets/covers/contour.jpg" onerror="this.src='assets/cover.jpg'" style="width: 150px; border-radius: 12px; filter: grayscale(100%) blur(2px); margin-bottom: 20px;">
+                <p style="color: #ccc; margin-bottom: 20px;">Эксклюзивные главы, черновики, удаленные сцены и прямое общение с автором доступны только участникам VIP-клуба.</p>
+                <button class="buy-btn" onclick="unlockVip()" style="background: linear-gradient(90deg, #ffd700, #ff8c00); color: #000;">Оформить доступ (Тест)</button>
+            </div>
+
+            <div id="vip-unlocked" style="display: none; width: 100%;">
+                <div class="info-block" open>
+                    <summary>🔥 Эксклюзивная глава: "Тени Прошлого"</summary>
+                    <div class="content"><p>Текст закрытой главы, доступный только VIP-подписчикам. Здесь начинается самое интересное...</p></div>
+                </div>
+                <div class="info-block">
+                    <summary>📝 Черновики и удаленные сцены</summary>
+                    <div class="content"><p>Как менялся сюжет книг и почему некоторые герои остались за кадром.</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html>

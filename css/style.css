@@ -62,3 +62,13 @@ p.subtitle { font-size: 1rem; color: #cccccc; font-weight: 400; text-align: cent
 .buy-btn:active { transform: scale(0.97); }
 .buy-btn.wb { background: #cb11b1; }
 .buy-btn.read { background: #ff4b4b; font-size: 1.2rem; margin-top: 10px; width: 100%; }
+
+/* Стили для цитат */
+.quote-block { width: 100%; max-width: 600px; background: rgba(255, 75, 75, 0.1); border-left: 4px solid #ff4b4b; padding: 20px; border-radius: 0 12px 12px 0; margin-bottom: 30px; text-align: left; }
+.quote-block p { font-style: italic; font-size: 1.05rem; line-height: 1.5; color: #eee; margin-bottom: 10px; }
+.refresh-btn { background: none; border: none; color: #ff4b4b; font-size: 0.85rem; cursor: pointer; text-decoration: underline; padding: 0; }
+
+/* VIP Карточка в меню */
+.vip-card { grid-column: span 2; background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 140, 0, 0.1) 100%); border-color: rgba(255, 215, 0, 0.3); }
+.vip-card svg { stroke: #ffd700; }
+.vip-card span { color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
