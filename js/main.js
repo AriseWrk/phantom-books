@@ -8,30 +8,26 @@ const safeStorage = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    const debugEl = document.getElementById('debug-test');
-    const updateDebug = (text, color) => {
-        if (debugEl) {
-            debugEl.innerText += ' | ' + text;
-            debugEl.style.color = color;
-        }
-    };
-    updateDebug('JS загружен', 'green');
-
     if (window.Telegram && window.Telegram.WebApp) {
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
+        if (window.Telegram.WebApp.BackButton) {
+            window.Telegram.WebApp.BackButton.hide(); // Прячем нативную
+        }
     }
     
+    // === УМНАЯ КНОПКА НАЗАД ===
     const path = window.location.pathname;
     let backUrl = null;
     if (path.includes("/books/")) backUrl = "../../library.html";
     else if (path.includes("library.html") || path.includes("news.html") || path.includes("lore.html") || path.includes("vip.html") || path.includes("gallery.html") || path.includes("social.html") || path.includes("digital.html")) backUrl = "index.html";
     
-    if (backUrl && window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.BackButton) {
-        try {
-            window.Telegram.WebApp.BackButton.show();
-            window.Telegram.WebApp.BackButton.onClick(() => { window.location.href = backUrl; });
-        } catch (e) { console.warn('BackButton error', e); }
+    if (backUrl) {
+        const backBtn = document.createElement('a');
+        backBtn.href = backUrl;
+        backBtn.className = 'custom-back-btn';
+        backBtn.innerHTML = '← Назад';
+        document.body.appendChild(backBtn);
     }
 
     getRandomQuote();
@@ -41,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabsContainer = document.getElementById('genre-tabs');
     
     if (gridContainer && tabsContainer) {
-        updateDebug('Контейнеры найдены', 'green');
         gridContainer.innerHTML = '<p style="color: #aaa; grid-column: 1/-1; text-align: center;">Загрузка книг...</p>';
         
         fetch('./books.json?t=' + Date.now())
@@ -50,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.json();
             })
             .then(books => {
-                updateDebug('JSON загружен (' + books.length + ' книг)', 'green');
                 allBooksData = books;
                 const genres = ['Все'];
                 books.forEach(b => {
@@ -72,11 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderBooks();
             })
             .catch(err => {
-                updateDebug('ОШИБКА: ' + err.message, 'red');
-                gridContainer.innerHTML = `<p style="color: red; grid-column: 1/-1; text-align: center;">Не удалось загрузить книги: ${err.message}</p>`;
+                gridContainer.innerHTML = `<p style="color: red; grid-column: 1/-1; text-align: center;">Ошибка: ${err.message}</p>`;
             });
-    } else {
-        updateDebug('Контейнеры НЕ найдены', 'red');
     }
     applyReadingSettings();
 });

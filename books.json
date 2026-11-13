@@ -29,8 +29,8 @@
   {
     "id": "limoncello",
     "title": "Лимончелло на двоих",
-    "genre": "Селы",
-    "description": "История о любви, проживающей в с�ердце мести и эмоциях. Печатная книга.",
+    "genre": "СЛР",
+    "description": "История о любви, проживающей в с�ердце мести и эмоциях. Печатная книга.",
     "cover": "assets/covers/limoncello.jpg",
     "type": "buy",
     "slug": "limoncello",
@@ -42,7 +42,7 @@
   {
     "id": "roxy",
     "title": "Poks на Манхеттене",
-    "genre": "Селя",
+    "genre": "СЛР",
     "description": "Романтика большого города и страстные переприключения.",
     "cover": "assets/covers/roxy.jpg",
     "type": "read",
