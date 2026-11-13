@@ -1,4 +1,4 @@
-﻿let allBooksData = [];
+let allBooksData = [];
 let currentGenre = 'Все';
 let currentSearch = '';
 
@@ -8,6 +8,15 @@ const safeStorage = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    const debugEl = document.getElementById('debug-test');
+    const updateDebug = (text, color) => {
+        if (debugEl) {
+            debugEl.innerText += ' | ' + text;
+            debugEl.style.color = color;
+        }
+    };
+    updateDebug('JS загружен', 'green');
+
     if (window.Telegram && window.Telegram.WebApp) {
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
@@ -22,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             window.Telegram.WebApp.BackButton.show();
             window.Telegram.WebApp.BackButton.onClick(() => { window.location.href = backUrl; });
-        } catch (e) { console.warn('BackButton not supported', e); }
+        } catch (e) { console.warn('BackButton error', e); }
     }
 
     getRandomQuote();
@@ -30,14 +39,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const gridContainer = document.getElementById('books-grid');
     const tabsContainer = document.getElementById('genre-tabs');
+    
     if (gridContainer && tabsContainer) {
-        gridContainer.innerHTML = '<p style="color:#aaa; grid-column:1/-1; text-align:center;">Загрузка книг...</p>';
+        updateDebug('Контейнеры найдены', 'green');
+        gridContainer.innerHTML = '<p style="color: #aaa; grid-column: 1/-1; text-align: center;">Загрузка книг...</p>';
+        
         fetch('./books.json?t=' + Date.now())
             .then(response => {
-                if (!response.ok) throw new Error('HTTP ошибка: ' + response.status);
+                if (!response.ok) throw new Error('HTTP ' + response.status);
                 return response.json();
             })
             .then(books => {
+                updateDebug('JSON загружен (' + books.length + ' книг)', 'green');
                 allBooksData = books;
                 const genres = ['Все'];
                 books.forEach(b => {
@@ -58,15 +71,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 renderBooks();
             })
-            .catch(e => {
-                console.error('Ошибка загрузки JSON:', e);
-                gridContainer.innerHTML = '<p style="color:red; grid-column:1/-1; text-align:center; padding:20px;">Ошибка загрузки книг: ' + e.message + '</p>';
+            .catch(err => {
+                updateDebug('ОШИБКА: ' + err.message, 'red');
+                gridContainer.innerHTML = `<p style="color: red; grid-column: 1/-1; text-align: center;">Не удалось загрузить книги: ${err.message}</p>`;
             });
+    } else {
+        updateDebug('Контейнеры НЕ найдены', 'red');
     }
     applyReadingSettings();
 });
 
-function renderBooks() x    const gridContainer = document.getElementById('books-grid');
+function renderBooks() {
+    const gridContainer = document.getElementById('books-grid');
     if (!gridContainer) return;
 
     let filtered = allBooksData;
@@ -117,9 +133,6 @@ function toggleFavorite(slug, event) {
     if (favs.includes(slug)) { favs = favs.filter(f => f !== slug); event.target.classList.remove('active'); }
     else { favs.push(slug); event.target.classList.add('active'); }
     safeStorage.set('arise_favs', JSON.stringify(favs));
-    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
-        try { window.Telegram.WebApp.HapticFeedback.impactOccurred('light'); } catch(e){}
-    }
 }
 
 function checkVip() {
@@ -131,6 +144,7 @@ function checkVip() {
         else { locked.style.display = 'block'; unlocked.style.display = 'none'; }
     }
 }
+
 function unlockVip() {
     if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.showConfirm) {
         window.Telegram.WebApp.showConfirm('Активировать тестовый VIP-доступ?', (confirmed) => {
@@ -140,12 +154,14 @@ function unlockVip() {
 }
 
 const quotes = [
-    "«Древний район не прощает ошибок. Он их коллекционирует.»",
-    "Тайны сибири не спят. Они ждут.»",
-    "«В Ордене нет друзей, есть только цели.»�����&�c�,t/�,�c4/t,4'4,4/tatattenе — это игра по особым правилам.",
+    "«Двенадцатый район не прощает ошибок. Он их коллекционирует.»",
+    "«Тайны Сибири не спят. Они ждут.»",
+    "«В Ордене нет друзей, есть только цели.»",
+    "«Любовь на Манхэттене — это игра по особым правилам.»",
     "«Особый контур стирает всё, кроме правды.»",
-    "«Всленная миров начинается там, где заканчивается страх.»"
+    "«Вселенная миров начинается там, где заканчивается страх.»"
 ];
+
 function getRandomQuote() {
     const quoteEl = document.getElementById('random-quote');
     if (quoteEl) quoteEl.innerText = quotes[Math.floor(Math.random() * quotes.length)];
@@ -176,7 +192,7 @@ function generateQuoteImage() {
         const link = document.createElement('a');
         link.download = 'arise_quote.jpg'; link.href = canvas.toDataURL('image/jpeg'); link.click();
     };
-    img.onerror = () => alert('Не удалось загрузить фон для цитаты.');
+    img.onerror = () => alert('Не удалось загрузить фон.');
 }
 
 function applyReadingSettings() {

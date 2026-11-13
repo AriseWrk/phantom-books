@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Библиотека - ARISE</title>
-    <link rel="stylesheet" href="css/style.css?v=3">
+    <link rel="stylesheet" href="css/style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
@@ -18,10 +18,16 @@
             <input type="text" id="search-input" placeholder="Поиск по названию или жанру..." oninput="filterBooks()">
         </div>
 
+        <div id="debug-test" style="color: red; font-size: 16px; font-weight: bold; margin-bottom: 10px; text-align: center;">Скрипт еще не загрузился...</div>
+        
         <div class="tabs" id="genre-tabs"></div>
         <main class="grid" id="books-grid"></main>
     </div>
-    <script src="js/main.js?v=3"></script>
+    
+    <script>
+        document.getElementById('debug-test').innerText = 'HTML загружен. Ждем JS...';
+        document.getElementById('debug-test').style.color = 'orange';
+    </script>
+    <script src="js/main.js?v=999"></script>
 </body>
 </html>
-
