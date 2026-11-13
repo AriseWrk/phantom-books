@@ -1,4 +1,4 @@
-let allBooksData = [];
+﻿let allBooksData = [];
 let currentGenre = 'Все';
 let currentSearch = '';
 
@@ -31,8 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const gridContainer = document.getElementById('books-grid');
     const tabsContainer = document.getElementById('genre-tabs');
     if (gridContainer && tabsContainer) {
-        fetch('books.json')
-            .then(response => response.json())
+        gridContainer.innerHTML = '<p style="color:#aaa; grid-column:1/-1; text-align:center;">Загрузка книг...</p>';
+        fetch('./books.json?t=' + Date.now())
+            .then(response => {
+                if (!response.ok) throw new Error('HTTP ошибка: ' + response.status);
+                return response.json();
+            })
             .then(books => {
                 allBooksData = books;
                 const genres = ['Все'];
@@ -54,13 +58,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 renderBooks();
             })
-            .catch(e => console.error('Ошибка загрузки JSON:', e));
+            .catch(e => {
+                console.error('Ошибка загрузки JSON:', e);
+                gridContainer.innerHTML = '<p style="color:red; grid-column:1/-1; text-align:center; padding:20px;">Ошибка загрузки книг: ' + e.message + '</p>';
+            });
     }
     applyReadingSettings();
 });
 
-function renderBooks() {
-    const gridContainer = document.getElementById('books-grid');
+function renderBooks() x    const gridContainer = document.getElementById('books-grid');
     if (!gridContainer) return;
 
     let filtered = allBooksData;
@@ -134,9 +140,9 @@ function unlockVip() {
 }
 
 const quotes = [
-    "«Двенадцатый район не прощает ошибок. Он их коллекционирует.»",
-    "Тайны Сибири не слят. Они ждут.»",
-   "«В Ордене нет друзей, есть только цели.»�����&�c�,t/�,�c4/t,4'4,4/tatattenе — это игра по особым правилам.",
+    "«Древний район не прощает ошибок. Он их коллекционирует.»",
+    "Тайны сибири не спят. Они ждут.»",
+    "«В Ордене нет друзей, есть только цели.»�����&�c�,t/�,�c4/t,4'4,4/tatattenе — это игра по особым правилам.",
     "«Особый контур стирает всё, кроме правды.»",
     "«Всленная миров начинается там, где заканчивается страх.»"
 ];
@@ -166,7 +172,7 @@ function generateQuoteImage() {
         lines.push(line);
         let startY = 540 - ((lines.length - 1) * 35);
         lines.forEach((l, i) => { ctx.fillText(l.trim(), 540, startY + (i * 70)); });
-        ctx.font = '30px sans-serif'; ctx.fillStyle = '#ff4b4b; ctx.fillText('Александр Голубцов • ARISE', 540, 850);
+        ctx.font = '30px sans-serif'; ctx.fillStyle = '#ff4b4b'; ctx.fillText('Александр Голубцов • ARISE', 540, 850);
         const link = document.createElement('a');
         link.download = 'arise_quote.jpg'; link.href = canvas.toDataURL('image/jpeg'); link.click();
     };
